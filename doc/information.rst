@@ -74,6 +74,8 @@ HDF5 compression filters and compression libraries sources were obtained from:
 * `FCIDECOMP plugin <https://gitlab.eumetsat.int/open-source/data-tailor-plugins/fcidecomp>`_
   (`v2.0.1 <https://gitlab.eumetsat.int/open-source/data-tailor-plugins/fcidecomp/-/tree/e88f83c03bafcd0769c167dca14aa7aabf728e1b>`_)
   using `CharLS <https://github.com/team-charls/charls>`_ (v2.1.0).
+* `FFMPEG plguin <https://github.com/Cai-Lab-at-University-of-Michigan/ffmpeg_HDF5_filter>`_
+  (commit `33ee476 <https://github.com/Cai-Lab-at-University-of-Michigan/ffmpeg_HDF5_filter/tree/33ee476d8442b2aef6159eec5d4a0d18214f1436>`_) using FFMPEG.
 * `SZ plugin <https://github.com/szcompressor/SZ>`_
   (commit `f466775 <https://github.com/szcompressor/SZ/tree/f4667759ead6a902110e80ff838ccdfddbc8dcd7>`_)
   using `SZ <https://github.com/szcompressor/SZ>`_, ZLib and ZStd.
@@ -111,6 +113,7 @@ Please read the different licenses:
 * bzip2: See `src/PyTables/LICENSE.txt <https://github.com/silx-kit/hdf5plugin/blob/main/src/PyTables/LICENSE.txt>`_ and `src/bzip2/LICENSE <https://github.com/silx-kit/hdf5plugin/blob/main/src/bzip2/LICENSE>`_
 * lz4: See `src/LZ4/COPYING <https://github.com/silx-kit/hdf5plugin/blob/main/src/LZ4/COPYING>`_, `src/LZ4/LICENSE <https://github.com/silx-kit/hdf5plugin/blob/main/src/LZ4/LICENSE>`_ and `src/c-blosc/LICENSES/LZ4.txt <https://github.com/silx-kit/hdf5plugin/blob/main/src/c-blosc/LICENSES/LZ4.txt>`_
 * FCIDECOMP: See `src/fcidecomp/LICENSE <https://github.com/silx-kit/hdf5plugin/blob/main/src/fcidecomp/LICENSE>`_ and `src/charls/LICENSE.md  <https://github.com/silx-kit/hdf5plugin/blob/main/src/charls/LICENSE.md>`_
+* FFMPEG: See `src/ffmpeg/LICENSE <https://github.com/Cai-Lab-at-University-of-Michigan/ffmpeg_HDF5_filter/blob/main/LICENSE>`_
 * SZ: See `src/SZ/copyright-and-BSD-license.txt <https://github.com/silx-kit/hdf5plugin/blob/main/src/SZ/copyright-and-BSD-license.txt>`_
 * SZ3: See `src/SZ3/copyright-and-BSD-license.txt <https://github.com/silx-kit/hdf5plugin/blob/main/src/SZ3/copyright-and-BSD-license.txt>`_
 * zfp: See `src/H5Z-ZFP/LICENSE <https://github.com/silx-kit/hdf5plugin/blob/main/src/H5Z-ZFP/LICENSE>`_ and `src/zfp/LICENSE <https://github.com/silx-kit/hdf5plugin/blob/main/src/zfp/LICENSE>`_

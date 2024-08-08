@@ -1227,6 +1227,38 @@ def get_sperr_plugin():
 
 PLUGIN_LIB_DEPENDENCIES['sperr'] = ("sperr",)
 
+def get_ffmpeg_plugin():
+    # ffmpeg hdf5 filter
+    hdf5_ffmpeg_dir = "src/ffmpeg/src"
+    ffmpeg_dir = glob('src/ffmpeg/internal-complibs/ffmpeg*')[0]
+
+    try:
+        import zipfile
+    except ModuleNotFoundError:
+        raise ModuleNotFoundError("zipfile is required to build ffmpeg_plugin, please install it.")
+    
+    if sys.platform == 'win32':
+        folder = 'windows'
+    elif sys.platform == 'darwin':
+        folder = 'darwin'
+    else:
+        folder = 'linux'
+
+    # Unzipping the file
+    with zipfile.ZipFile(glob(f'{ffmpeg_dir}/ffmpeg_build/libs/{folder}/*.zip')[0], 'r') as zip_ref:
+        zip_ref.extractall(f'{ffmpeg_dir}/ffmpeg_build/libs/{folder}')
+
+    sources = [f for f in glob(f'{hdf5_ffmpeg_dir}/ffmpeg*.c')]
+
+    # ffmpeg related libs
+    extra_compile_args = [f'-I{ffmpeg_dir}/ffmpeg_build/include', f'-L{ffmpeg_dir}/ffmpeg_build/libs/{folder}']
+
+    return HDF5PluginExtension(
+        "hdf5plugin.plugins.libh5ffmpeg",
+        sources=sources,
+        extra_compile_args=extra_compile_args,
+    )
+
 
 def apply_filter_strip(libraries, extensions, dependencies):
     """Strip C libraries and extensions according to HDF5PLUGIN_STRIP env. var."""
@@ -1268,6 +1300,7 @@ library_list = [
     get_zlib_clib(),
     get_zstd_clib(),
 ]
+
 libraries, extensions = apply_filter_strip(
     libraries=library_list,
     extensions=[
@@ -1282,6 +1315,7 @@ libraries, extensions = apply_filter_strip(
         get_sz_plugin(),
         get_sz3_plugin(),
         get_sperr_plugin(),
+        get_ffmpeg_plugin(),
     ],
     dependencies=PLUGIN_LIB_DEPENDENCIES,
 )

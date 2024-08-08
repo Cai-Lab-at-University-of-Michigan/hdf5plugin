@@ -88,6 +88,13 @@ FciDecomp
    :members:
    :undoc-members:
 
+FFMPEG
+======
+
+.. autoclass:: FFMPEG
+   :members:
+   :undoc-members:
+
 LZ4
 ===
 

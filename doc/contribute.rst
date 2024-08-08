@@ -178,6 +178,23 @@ compression_opts: (**block_size**,)
   Default 0 for a block size of 1GB.
   It MUST be < 1.9 GB.
 
+ffmpeg
+......
+
+compression_opts: (**enc_id**, **dec_id**, **width**, **height**, **depth**, **bit_mode**, **preset**, **tune**, **crf**, **film_grain**, **gpu_id**)
+
+- **enc_id**: Please refer to `EncoderCodecEnum <https://github.com/Cai-Lab-at-University-of-Michigan/ffmpeg_HDF5_filter/blob/main/src/ffmpeg_h5filter.h#L31>`_
+- **dec_id**: Please refer to `DecoderCodecEnum <https://github.com/Cai-Lab-at-University-of-Michigan/ffmpeg_HDF5_filter/blob/main/src/ffmpeg_h5filter.h#L44>`_
+- **width**: Chunk size in `x` dim
+- **height**: Chunk size in `y` dim
+- **depth**: Chunk size in `x` dim
+- **bit_mode**: 0: unsigned 8bit mode, 1: unsigned 10bit mode
+- **preset**: Please refer to `PresetIDEnum <https://github.com/Cai-Lab-at-University-of-Michigan/ffmpeg_HDF5_filter/blob/main/src/ffmpeg_h5filter.h#L56>`_
+- **tune**: Please refer to `TuneTypeEnum <https://github.com/Cai-Lab-at-University-of-Michigan/ffmpeg_HDF5_filter/blob/main/src/ffmpeg_h5filter.h#L142>`_
+- **crf**: x264: 0-51, x265: 0-51, SVT-AV1: 1-63
+- **film_grain**: Only applied for SVT-AV1: 0-200. The bigger the value, the blurrier the images.
+- **gpu_id**: Only applied for nvidia GPU video codecs
+
 sperr
 .....
 

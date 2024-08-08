@@ -79,8 +79,12 @@ class BaseTestHDF5PluginRW(unittest.TestCase):
             create_dataset's compression_opts argument
         :return: The tuple describing the filter
         """
-        data = numpy.ones((self._data_natoms,), dtype=dtype).reshape(self._data_shape)
-        filename = os.path.join(self.tempdir, "test_" + filter_name + ".h5")
+        if filter_name == 'ffmpeg':
+            data = numpy.ones((128, 128, 128), dtype=dtype)
+            filename = os.path.join(self.tempdir, "test_" + filter_name + ".h5")
+        else:
+            data = numpy.ones((self._data_natoms,), dtype=dtype).reshape(self._data_shape)
+            filename = os.path.join(self.tempdir, "test_" + filter_name + ".h5")
 
         compression_class = {
             "blosc": hdf5plugin.Blosc,
@@ -89,6 +93,7 @@ class BaseTestHDF5PluginRW(unittest.TestCase):
             "bzip2": hdf5plugin.BZip2,
             "lz4": hdf5plugin.LZ4,
             "fcidecomp": hdf5plugin.FciDecomp,
+            "ffmpeg": hdf5plugin.FFMPEG,
             "sperr": hdf5plugin.Sperr,
             "sz": hdf5plugin.SZ,
             "sz3": hdf5plugin.SZ3,
@@ -262,6 +267,28 @@ class TestHDF5PluginRW(BaseTestHDF5PluginRW):
         for dtype in (numpy.uint8, numpy.uint16, numpy.int8, numpy.int16):
             with self.subTest(dtype=dtype):
                 self._test('fcidecomp', dtype=dtype)
+
+    @unittest.skipUnless(should_test("ffmpeg"), "ffmpeg filter not available")
+    def testFFmpeg(self):
+        """Write/read test with ffmpeg filter plugin"""
+        tests = [
+            {'lossless': False, 'enc_id': 2, 'dec_id': 1, 'width': 128, 'height': 128, 'depth': 128, 'bit_mode': 0, 'preset': 10, 'tune': 10, 'crf': 1, 'film_grain': 0, 'gpu_id': 0},
+            {'lossless': False, 'enc_id': 2, 'dec_id': 1, 'width': 128, 'height': 128, 'depth': 128, 'bit_mode': 1, 'preset': 10, 'tune': 10, 'crf': 1, 'film_grain': 0, 'gpu_id': 0},
+            {'lossless': False, 'enc_id': 4, 'dec_id': 3, 'width': 128, 'height': 128, 'depth': 128, 'bit_mode': 0, 'preset': 200, 'tune': 200, 'crf': 1, 'film_grain': 0, 'gpu_id': 0},
+            {'lossless': False, 'enc_id': 4, 'dec_id': 3, 'width': 128, 'height': 128, 'depth': 128, 'bit_mode': 1, 'preset': 200, 'tune': 200, 'crf': 1, 'film_grain': 0, 'gpu_id': 0},
+            {'lossless': False, 'enc_id': 6, 'dec_id': 6, 'width': 128, 'height': 128, 'depth': 128, 'bit_mode': 0, 'preset': 400, 'tune': 400, 'crf': 1, 'film_grain': 0, 'gpu_id': 0},
+            {'lossless': False, 'enc_id': 6, 'dec_id': 6, 'width': 128, 'height': 128, 'depth': 128, 'bit_mode': 1, 'preset': 400, 'tune': 400, 'crf': 1, 'film_grain': 0, 'gpu_id': 0},
+        ]
+        for options in tests:
+            if options['bit_mode'] == 0:
+                dtype = numpy.uint8
+            elif options['bit_mode'] == 1:
+                dtype = numpy.uint16
+            else:
+                raise RuntimeError(f'{options['bit_mode']} not supported')
+            
+            with self.subTest(options=options, dtype=dtype):
+                self._test('sperr', dtype=dtype, **options)
 
     @unittest.skipUnless(should_test("sperr"), "Sperr filter not available")
     def testSperr(self):

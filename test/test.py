@@ -161,6 +161,26 @@ class TestHDF5PluginRead(unittest.TestCase):
                             "Incorrect dtype")
             self.assertTrue(numpy.allclose(original, compressed, atol=1e-3),
                             "Values should be close")
+    
+    @unittest.skipUnless(h5py.h5z.filter_avail(hdf5plugin.FFMPEG_ID),
+                         "ffmpeg filter not available")    
+    def testFFmpeg(self):
+        """Test reading ffmpeg compressed data"""
+        dirname = os.path.abspath(os.path.dirname(__file__))
+        for fname in ["ffmpeg_svt-av1.h5"]:
+            fname = os.path.join(dirname, fname)
+            self.assertTrue(os.path.exists(fname),
+                            "Cannot find %s file" % fname)
+            with h5py.File(fname, "r") as h5:
+                compressed = h5["data"][()]
+            
+            original = numpy.ones((128, 128, 128), dtype=numpy.uint8)
+            self.assertTrue(original.shape == compressed.shape,
+                            "Incorrect shape")
+            self.assertTrue(original.dtype == compressed.dtype,
+                            "Incorrect dtype")
+            self.assertTrue(numpy.allclose(original, compressed, atol=1e-3),
+                            "Values should be close")
 
     @unittest.skipUnless(h5py.h5z.filter_avail(hdf5plugin.SZ_ID),
                          "SZ filter not available")

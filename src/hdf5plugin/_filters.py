@@ -69,6 +69,9 @@ FCIDECOMP_ID = 32018
 SPERR_ID = 32028
 """SPERR filter ID"""
 
+FFMPEG_ID = 32027
+"""FFMPEG filter ID"""
+
 
 class Bitshuffle(h5py.filters.FilterRefBase):
     """``h5py.Group.create_dataset``'s compression arguments for using bitshuffle filter.
@@ -734,7 +737,14 @@ class Zstd(h5py.filters.FilterRefBase):
         self.filter_options = (clevel,)
 
 
-FILTER_CLASSES = Bitshuffle, Blosc, Blosc2, BZip2, FciDecomp, LZ4, Sperr, SZ, SZ3, Zfp, Zstd
+class FFMPEG(h5py.filters.FilterRefBase):
+    filter_name = "ffmpeg"
+    filter_id = FFMPEG_ID
+
+    def __init__(self, enc_id, dec_id, width, height, depth, bit_mode, preset, tune, crf, film_grain, gpu_id):
+        self.filter_options = (int(enc_id), int(dec_id), int(width), int(height), int(depth), int(bit_mode), int(preset), int(tune), int(crf), int(film_grain), int(gpu_id), )
+
+FILTER_CLASSES = Bitshuffle, Blosc, Blosc2, BZip2, FciDecomp, LZ4, Sperr, SZ, SZ3, Zfp, Zstd, FFMPEG
 
 
 FILTERS = dict((cls.filter_name, cls.filter_id) for cls in FILTER_CLASSES)
