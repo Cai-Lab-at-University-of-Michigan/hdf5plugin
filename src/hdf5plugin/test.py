@@ -285,7 +285,7 @@ class TestHDF5PluginRW(BaseTestHDF5PluginRW):
             elif options['bit_mode'] == 1:
                 dtype = numpy.uint16
             else:
-                raise RuntimeError(f'{options['bit_mode']} not supported')
+                raise RuntimeError(f'{options["bit_mode"]} not supported')
             
             with self.subTest(options=options, dtype=dtype):
                 self._test('sperr', dtype=dtype, **options)
